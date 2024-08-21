@@ -55,7 +55,7 @@ class Account(StripeModel):
             api_key=api_key, stripe_version=djstripe_settings.STRIPE_API_VERSION
         )
 
-        return cls._get_or_create_from_stripe_object(account_data, api_key=api_key)[0]v
+        return cls._get_or_create_from_stripe_object(account_data, api_key=api_key)[0]
 
     @classmethod
     def get_or_retrieve_for_api_key(cls, api_key: str):
