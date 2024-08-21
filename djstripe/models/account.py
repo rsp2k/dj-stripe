@@ -137,7 +137,7 @@ class Account(StripeModel):
             **kwargs,
         )
 
-    def get_default_api_key(self, livemode: bool = None, apy_key_type: APIKeyType.type=ApiKeyType.secret) -> str:
+    def get_default_api_key(self, livemode: bool = None, apy_key_type: APIKeyType.type=APIKeyType.secret) -> str:
         if livemode is None:
             livemode = self.livemode
             api_key = APIKey.objects.filter(
