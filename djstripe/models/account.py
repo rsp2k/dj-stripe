@@ -55,7 +55,7 @@ class Account(StripeModel):
             api_key=api_key, stripe_version=djstripe_settings.STRIPE_API_VERSION
         )
 
-        return cls._get_or_create_from_stripe_object(account_data, api_key=api_key)[0]
+        return cls._get_or_create_from_stripe_object(account_data, api_key=api_key)[0]v
 
     @classmethod
     def get_or_retrieve_for_api_key(cls, api_key: str):
@@ -137,15 +137,15 @@ class Account(StripeModel):
             **kwargs,
         )
 
-    def get_default_api_key(self, livemode: bool = None) -> str:
+    def get_default_api_key(self, livemode: bool = None, apy_key_type: APIKeyType.type=ApiKeyType.secret) -> str:
         if livemode is None:
             livemode = self.livemode
             api_key = APIKey.objects.filter(
-                djstripe_owner_account=self, type=APIKeyType.secret
+                djstripe_owner_account=self, type=api_key_type
             ).first()
         else:
             api_key = APIKey.objects.filter(
-                djstripe_owner_account=self, type=APIKeyType.secret, livemode=livemode
+                djstripe_owner_account=self, type=api_key_type, livemode=livemode
             ).first()
 
         if api_key:
