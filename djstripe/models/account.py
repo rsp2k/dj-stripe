@@ -137,19 +137,22 @@ class Account(StripeModel):
             **kwargs,
         )
 
-    def get_default_api_key(self, livemode: bool = None, apy_key_type: APIKeyType.type=APIKeyType.secret) -> str:
+    def get_default_api_key(self, livemode: bool = None, key_type: APIKeyType=APIKeyType.secret) -> str:
         if livemode is None:
             livemode = self.livemode
             api_key = APIKey.objects.filter(
-                djstripe_owner_account=self, type=api_key_type
+                djstripe_owner_account=self,
             ).first()
         else:
             api_key = APIKey.objects.filter(
-                djstripe_owner_account=self, type=api_key_type, livemode=livemode
+                djstripe_owner_account=self, livemode=livemode
             ).first()
 
         if api_key:
-            return api_key.secret
+            if key_type == APIKeyType.publishable:
+                return api_key.public_key
+            else:
+                return api_key.secret
         return djstripe_settings.get_default_api_key(livemode)
 
     def _attach_objects_post_save_hook(
