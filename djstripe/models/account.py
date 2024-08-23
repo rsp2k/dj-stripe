@@ -137,18 +137,18 @@ class Account(StripeModel):
             **kwargs,
         )
 
-    def get_default_api_key(self, livemode: bool = None, key_type: APIKeyType=APIKeyType.secret) -> str:
+    def get_default_api_key(self, livemode: bool = None, type: APIKeyType=APIKeyType.secret) -> str:
         if livemode is None:
             livemode = self.livemode
             api_key = APIKey.objects.filter(
                 djstripe_owner_account=self,
-                key_type=key_type,
+                type=type,
             ).first()
         else:
             api_key = APIKey.objects.filter(
                 djstripe_owner_account=self,
                 livemode=livemode,
-                key_type=key_type,
+                type=type,
             ).first()
 
         if api_key:
