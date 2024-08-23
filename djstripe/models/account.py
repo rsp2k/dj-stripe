@@ -149,10 +149,7 @@ class Account(StripeModel):
             ).first()
 
         if api_key:
-            if key_type == APIKeyType.publishable:
-                return api_key.public_key
-            else:
-                return api_key.secret
+            return api_key.secret
         return djstripe_settings.get_default_api_key(livemode)
 
     def _attach_objects_post_save_hook(
