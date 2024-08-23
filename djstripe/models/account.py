@@ -142,10 +142,13 @@ class Account(StripeModel):
             livemode = self.livemode
             api_key = APIKey.objects.filter(
                 djstripe_owner_account=self,
+                key_type=key_type,
             ).first()
         else:
             api_key = APIKey.objects.filter(
-                djstripe_owner_account=self, livemode=livemode
+                djstripe_owner_account=self,
+                livemode=livemode,
+                key_type=key_type,
             ).first()
 
         if api_key:
